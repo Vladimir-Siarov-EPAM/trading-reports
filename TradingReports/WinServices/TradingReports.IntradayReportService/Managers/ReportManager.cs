@@ -30,17 +30,11 @@ namespace TradingReports.IntradayReportService.Managers
 			try
 			{
 				DateTime utcReportDate = DateTime.UtcNow;
-
-				var dayTradingData = await _reportRepository.GetDayTradingDataForUkAsync(utcReportDate);
-
+				
 				string reportFilePath = ReportHelper.GenerateReportFilePath(utcReportDate);
 				using (var fileStream = File.Create(reportFilePath))
 				{
-					var streamWriter = new StreamWriter(fileStream, Encoding.UTF8);
-					CsvHelper.WriteToCsv(dayTradingData, 
-						null, // TODO
-						DateHelper.FromUtcToGmt,
-						streamWriter);
+					await this.GenerateIntradateReportAsync(utcReportDate, fileStream);
 				}
 
 				return reportFilePath;
@@ -49,6 +43,44 @@ namespace TradingReports.IntradayReportService.Managers
 			{
 				throw;
 			}
+		}
+
+		// public async Task<string> GenerateIntradateReportAsync()
+		// {
+		// 	try
+		// 	{
+		// 		DateTime utcReportDate = DateTime.UtcNow;
+		//
+		// 		var dayTradingData = await _reportRepository.GetDayTradingDataForUkAsync(utcReportDate);
+		//
+		// 		string reportFilePath = ReportHelper.GenerateReportFilePath(utcReportDate);
+		// 		using (var fileStream = File.Create(reportFilePath))
+		// 		{
+		// 			var streamWriter = new StreamWriter(fileStream, Encoding.UTF8);
+		// 			await CsvHelper.WriteAsCsv(dayTradingData,
+		// 				null, // TODO
+		// 				DateHelper.FromUtcToGmt,
+		// 				streamWriter);
+		// 		}
+		//
+		// 		return reportFilePath;
+		// 	}
+		// 	catch (Exception ex)
+		// 	{
+		// 		throw;
+		// 	}
+		// }
+
+		// internal - for tests support
+		internal async Task GenerateIntradateReportAsync(DateTime utcReportDate, Stream stream)
+		{
+			var dayTradingData = await _reportRepository.GetDayTradingDataForUkAsync(utcReportDate);
+			var streamWriter = new StreamWriter(stream, Encoding.UTF8);
+
+			await CsvHelper.WriteAsCsv(dayTradingData,
+				null, // TODO
+				DateHelper.FromUtcToGmt,
+				streamWriter);
 		}
 	}
 }

@@ -32,7 +32,7 @@ namespace TradingReports.Core.Repositories
 			try
 			{
 				var localDate = utcDate.FromUtcToGmt(); // UK local date
-				var trades = await _tradingDataAdapter.GetTradesAsync(localDate);
+				var trades = await _tradingDataAdapter.GetTradesSafetyAsync(localDate);
 
 				Dictionary<int, double> aggregatedPeriodsAndVolumes = trades
 					.SelectMany(t => t.Periods)

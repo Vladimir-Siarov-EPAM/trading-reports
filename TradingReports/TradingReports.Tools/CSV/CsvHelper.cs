@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
+using System.Threading.Tasks;
 using TradingReports.Core.BE;
 
 namespace TradingReports.Tools.CSV
@@ -35,7 +36,16 @@ namespace TradingReports.Tools.CSV
 		}
 
 
-		public static void WriteToCsv(IEnumerable<TradingHourlyData> dayTradingData,
+		/// <summary>
+		///  Writes provided trading data in CSV format to the specified stream writer.
+		/// </summary>
+		/// <param name="dayTradingData"></param>
+		/// <param name="headers"></param>
+		/// <param name="fnToLocalTime"></param>
+		/// <param name="streamWriter"></param>
+		/// <param name="customCsvSettings"></param>
+		/// <returns></returns>
+		public static async Task WriteAsCsv(IEnumerable<TradingHourlyData> dayTradingData,
 			string[] headers,
 			Func<DateTime, DateTime> fnToLocalTime,
 			StreamWriter streamWriter,
@@ -57,6 +67,8 @@ namespace TradingReports.Tools.CSV
 			{
 				WriteDataLine(hourlyData, fnToLocalTime, streamWriter, customCsvSettings ?? DefaultCsvSettings);
 			}
+
+			await streamWriter.FlushAsync();
 		}
 
 
@@ -78,7 +90,7 @@ namespace TradingReports.Tools.CSV
 			}
 
 			streamWriter.Write(Environment.NewLine);
-			streamWriter.Flush();
+			//streamWriter.Flush();
 		}
 
 		private static void WriteDataLine(TradingHourlyData hourlyData,
@@ -104,7 +116,7 @@ namespace TradingReports.Tools.CSV
 			streamWriter.Write(csvSettings.Qualifier);
 
 			streamWriter.Write(Environment.NewLine);
-			streamWriter.Flush();
+			//streamWriter.Flush();
 		}
 	}
 }

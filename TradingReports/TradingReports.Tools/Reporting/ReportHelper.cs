@@ -47,6 +47,12 @@ namespace TradingReports.Tools.Reporting
 		}
 
 
+		/// <summary>
+		/// Generates unique file path by report settings defined in .config file.
+		/// <para>File time stamp is generated for UK time zone</para>
+		/// </summary>
+		/// <param name="utcReportDate"></param>
+		/// <returns></returns>
 		public static string GenerateReportFilePath(DateTime utcReportDate)
 		{
 			DateTime localReportDate = utcReportDate.FromUtcToGmt(); // convert to UK time

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using FluentAssertions;
 using NUnit.Framework;
 using TradingReports.Core.BE;
@@ -14,10 +15,10 @@ namespace TradingReports.UnitTests.Helpers
 	[TestFixture]
 	public class CsvHelperTests
 	{
-		#region WriteToCsv
+		#region WriteAsCsv
 
-		[TestCaseSource(nameof(WriteToCsv_Source))]
-		public void WriteToCsv(IEnumerable<TradingHourlyData> dayTradingData,
+		[TestCaseSource(nameof(WriteAsCsv_Source))]
+		public async Task WriteAsCsv(IEnumerable<TradingHourlyData> dayTradingData,
 			string[] headers, Func<DateTime, DateTime> fnToLocalTime, CsvSettings customCsvSettings,
 			string[] expectedCsvRows)
 		{
@@ -28,7 +29,7 @@ namespace TradingReports.UnitTests.Helpers
 			using (MemoryStream ms = new MemoryStream())
 			{
 				StreamWriter sw = new StreamWriter(ms, Encoding.UTF8);
-				CsvHelper.WriteToCsv(dayTradingData, headers, fnToLocalTime, sw, customCsvSettings);
+				await CsvHelper.WriteAsCsv(dayTradingData, headers, fnToLocalTime, sw, customCsvSettings);
 
 				ms.Seek(0, SeekOrigin.Begin);
 				StreamReader sr = new StreamReader(ms, Encoding.UTF8);
@@ -39,7 +40,7 @@ namespace TradingReports.UnitTests.Helpers
 			csv.Should().NotBeNullOrEmpty();
 
 			var csvRows = csv.Split(new[] {Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries);
-			csvRows.Length.Should().Be(dayTradingData.Count() + 1);
+			csvRows.Length.Should().Be(dayTradingData.Count() + 1); // data rows + header row
 
 			if (expectedCsvRows != null)
 			{
@@ -50,7 +51,7 @@ namespace TradingReports.UnitTests.Helpers
 			}
 		}
 
-		private static IEnumerable<TestCaseData> WriteToCsv_Source()
+		private static IEnumerable<TestCaseData> WriteAsCsv_Source()
 		{
 			string[] headers = new[] {"Local Time Header", "Volume Header"};
 			TradingHourlyData[] dayTradingData = new[]
@@ -62,7 +63,7 @@ namespace TradingReports.UnitTests.Helpers
 			// check default settings and nullable parameters
 			yield return new TestCaseData(dayTradingData, null, null, null, null);
 
-			// check different CSV setting combinations
+			// check different CSV settings combinations
 			yield return new TestCaseData(dayTradingData, headers, null, 
 				new CsvSettings
 				{
