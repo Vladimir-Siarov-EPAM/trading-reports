@@ -72,13 +72,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Impl\IntradayReportServiceImpl.cs" />
     <Compile Include="IntradayReportService.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="IntradayReportService.Designer.cs">
       <DependentUpon>IntradayReportService.cs</DependentUpon>
     </Compile>
-    <Compile Include="Managers\ReportManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ProjectInstaller.cs">
       <SubType>Component</SubType>
@@ -110,5 +110,6 @@
       <Name>TradingReports.Tools</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

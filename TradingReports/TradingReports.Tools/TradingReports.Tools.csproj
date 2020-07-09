@@ -42,10 +42,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CSV\CsvHelper.cs" />
+    <Compile Include="CSV\CsvService.cs" />
     <Compile Include="CSV\CsvSettings.cs" />
+    <Compile Include="CSV\ICsvService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Reporting\ReportHelper.cs" />
     <Compile Include="Reporting\ReportSettings.cs" />
   </ItemGroup>
   <ItemGroup>

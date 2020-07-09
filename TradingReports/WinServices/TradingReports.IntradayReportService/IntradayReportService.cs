@@ -1,18 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
-using System.Linq;
-using System.ServiceProcess;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ServiceProcess;
 using System.Timers;
 using Common.Logging;
 using TradingReports.Core.DAL;
 using TradingReports.Core.Interfaces;
 using TradingReports.Core.Repositories;
-using TradingReports.IntradayReportService.Managers;
+using TradingReports.IntradayReportService.Impl;
+using TradingReports.Tools.CSV;
 using TradingReports.Tools.Reporting;
 using Unity;
 
@@ -22,6 +15,8 @@ namespace TradingReports.IntradayReportService
 	{
 		private readonly ILog _logger = LogManager.GetLogger(typeof(IntradayReportService));
 		private readonly IUnityContainer _container;
+		private readonly ReportSettings _reportSettings = ReportSettings.ReadFromConfig();
+		private readonly CsvSettings _csvSettings = CsvSettings.ReadFromConfig();
 
 
 		public IntradayReportService()
@@ -37,7 +32,7 @@ namespace TradingReports.IntradayReportService
 
 			// Set up a timer that triggers every minute.
 			Timer timer = new Timer();
-			timer.Interval = ReportHelper.Settings.ReportingIntervalInMinutes * 60000; // min * 60 seconds
+			timer.Interval = _reportSettings.ReportingIntervalInMinutes * 60000; // min * 60 seconds
 			timer.Elapsed += TimerOnElapsed;
 			timer.Start();
 
@@ -52,8 +47,8 @@ namespace TradingReports.IntradayReportService
 
 		private async void TimerOnElapsed(object sender, ElapsedEventArgs e)
 		{
-			var reportManager = _container.Resolve<ReportManager>();
-			await reportManager.GenerateIntradayReportAsync();
+			var reportService = _container.Resolve<IntradayReportServiceImpl>();
+			await reportService.GenerateIntradayReportAsync(_reportSettings, _csvSettings);
 		}
 
 		private IUnityContainer BuildContainer()
@@ -62,6 +57,7 @@ namespace TradingReports.IntradayReportService
 
 			container.RegisterType<ITradingDataAdapter, TradingDataAdapter>();
 			container.RegisterType<IReportRepository, ReportRepository>();
+			container.RegisterType<ICsvService, CsvService>();
 
 			return container;
 		}

@@ -10,36 +10,37 @@ using TradingReports.Core.BE;
 using TradingReports.Core.Helpers;
 using TradingReports.Tools.CSV;
 
-namespace TradingReports.UnitTests.Helpers
+namespace TradingReports.UnitTests.Tools
 {
 	[TestFixture]
-	public class CsvHelperTests
+	public class CsvServiceTests
 	{
 		#region WriteAsCsv
 
 		[TestCaseSource(nameof(WriteAsCsv_Source))]
 		public async Task WriteAsCsv(IEnumerable<TradingHourlyData> dayTradingData,
-			string[] headers, Func<DateTime, DateTime> fnToLocalTime, CsvSettings customCsvSettings,
+			string[] headers, Func<DateTime, DateTime> fnToLocalTime, CsvSettings csvSettings,
 			string[] expectedCsvRows)
 		{
 			// arrange
-			
+			var csvService = new CsvService();
+
 			// act
 			string csv = null;
 			using (MemoryStream ms = new MemoryStream())
 			{
-				StreamWriter sw = new StreamWriter(ms, Encoding.UTF8);
-				await CsvHelper.WriteAsCsv(dayTradingData, headers, fnToLocalTime, sw, customCsvSettings);
+				await csvService.WriteAsCsv(dayTradingData, headers, fnToLocalTime, csvSettings,
+					new StreamWriter(ms, Encoding.UTF8));
 
 				ms.Seek(0, SeekOrigin.Begin);
-				StreamReader sr = new StreamReader(ms, Encoding.UTF8);
-				csv = sr.ReadToEnd();
+				csv = new StreamReader(ms, Encoding.UTF8).ReadToEnd();
 			}
 
 			// assert
 			csv.Should().NotBeNullOrEmpty();
 
-			var csvRows = csv.Split(new[] {Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries);
+			var csvRows = csv.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+
 			csvRows.Length.Should().Be(dayTradingData.Count() + 1); // data rows + header row
 
 			if (expectedCsvRows != null)
@@ -53,25 +54,19 @@ namespace TradingReports.UnitTests.Helpers
 
 		private static IEnumerable<TestCaseData> WriteAsCsv_Source()
 		{
-			string[] headers = new[] {"Local Time Header", "Volume Header"};
+			string[] headers = new[] { "Local Time Header", "Volume Header" };
 			TradingHourlyData[] dayTradingData = new[]
 			{
 				new TradingHourlyData{ PeriodUtcDate = new DateTime(2020, 7, 8, 22, 0, 0), Volume = 123.456789 },
 				new TradingHourlyData{ PeriodUtcDate = new DateTime(2020, 1, 8, 23, 0, 0), Volume = 0.123456789 }
 			};
-			
+
 			// check default settings and nullable parameters
 			yield return new TestCaseData(dayTradingData, null, null, null, null);
 
 			// check different CSV settings combinations
-			yield return new TestCaseData(dayTradingData, headers, null, 
-				new CsvSettings
-				{
-					FieldSeparator = ";",
-					Qualifier = "",
-					TimeFormat = "HH:mm:ss zzz",
-					NumberFormat = "000.####"
-				}, 
+			yield return new TestCaseData(dayTradingData, headers, null,
+				new CsvSettings(";", "", "HH:mm:ss zzz", "000.####"),
 				new[]
 				{
 					"Local Time Header;Volume Header",
@@ -79,13 +74,7 @@ namespace TradingReports.UnitTests.Helpers
 					"23:00:00 +03:00;000.1235"
 				});
 			yield return new TestCaseData(dayTradingData, headers, null,
-				new CsvSettings
-				{
-					FieldSeparator = "\t",
-					Qualifier = "\"",
-					TimeFormat = "yyyy MMM dd",
-					NumberFormat = "#.####"
-				},
+				new CsvSettings("\t", "\"", "yyyy MMM dd", "#.####"),
 				new[]
 				{
 					"\"Local Time Header\"\t\"Volume Header\"",
@@ -96,13 +85,7 @@ namespace TradingReports.UnitTests.Helpers
 			// check conversion to local time
 			Func<DateTime, DateTime> fnToLocalTime = DateHelper.FromUtcToGmt;
 			yield return new TestCaseData(dayTradingData, headers, fnToLocalTime,
-				new CsvSettings
-				{
-					FieldSeparator = ",",
-					Qualifier = "",
-					TimeFormat = "MM/dd/yyyy HH:mm",
-					NumberFormat = "0.####"
-				},
+				new CsvSettings(",", "", "MM/dd/yyyy HH:mm", "0.####"),
 				new[]
 				{
 					"Local Time Header,Volume Header",

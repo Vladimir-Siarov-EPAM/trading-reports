@@ -2,19 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Common.Logging;
 using TradingReports.Core.BE;
 using TradingReports.Core.Helpers;
 using TradingReports.Core.Interfaces;
 
 namespace TradingReports.Core.Repositories
 {
-	public class ReportRepository : BaseRepository, IReportRepository
+	public class ReportRepository : IReportRepository
 	{
+		private readonly ILog _logger = LogManager.GetLogger(typeof(ReportRepository));
 		private readonly ITradingDataAdapter _tradingDataAdapter;
 
 
 		public ReportRepository(ITradingDataAdapter tradingDataAdapter)
-			: base()
 		{
 			if(tradingDataAdapter == null)
 				throw new ArgumentNullException(nameof(tradingDataAdapter));
@@ -53,7 +54,7 @@ namespace TradingReports.Core.Repositories
 			}
 			catch (Exception ex)
 			{
-				this.Logger.Error("Error has occurred on \"GetDayTradingDataForUkAsync\" method", ex);
+				_logger.Error("Error has occurred on \"GetDayTradingDataForUkAsync\" method", ex);
 				throw;
 			}
 		}

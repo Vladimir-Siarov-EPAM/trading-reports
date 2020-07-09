@@ -21,19 +21,6 @@ namespace TradingReports.Core.DAL
 
 		#region ITradingDataAdapter
 
-		public IEnumerable<Trade> GetTrades(DateTime gmtDate)
-		{
-			return 
-				_tradingService.GetTrades(gmtDate);
-		}
-		
-		public async Task<IEnumerable<Trade>> GetTradesAsync(DateTime gmtDate)
-		{
-			return 
-				await _tradingService.GetTradesAsync(gmtDate);
-		}
-
-
 		/// <inheritdoc/>
 		public async Task<IEnumerable<Trade>> GetTradesSafetyAsync(DateTime gmtDate)
 		{

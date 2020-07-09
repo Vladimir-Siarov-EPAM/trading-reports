@@ -12,7 +12,7 @@ namespace TradingReports.UnitTests.DAL
 	public class TradingDataAdapterTests
 	{
 		[Test]
-		public async Task GetTradesSafetyAsync()
+		public async Task GetTradesSafetyAsync_RetryPolicy()
 		{
 			#region arrange
 

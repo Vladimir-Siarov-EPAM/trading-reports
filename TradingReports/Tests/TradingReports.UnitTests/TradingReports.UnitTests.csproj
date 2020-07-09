@@ -76,11 +76,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DAL\TradingDataAdapterTests.cs" />
-    <Compile Include="Helpers\CsvHelperTests.cs" />
     <Compile Include="Helpers\DateHelperTests.cs" />
-    <Compile Include="Managers\ReportManagerTests.cs" />
     <Compile Include="Repositories\ReportRepositoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tools\CsvServiceTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -94,10 +93,6 @@
     <ProjectReference Include="..\..\TradingReports.Tools\TradingReports.Tools.csproj">
       <Project>{e1cd25e2-cae3-42fb-b6ae-bcfe34f3c7e7}</Project>
       <Name>TradingReports.Tools</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\WinServices\TradingReports.IntradayReportService\TradingReports.IntradayReportService.csproj">
-      <Project>{ffb11425-8caf-415c-92a2-5d74fcaa5a12}</Project>
-      <Name>TradingReports.IntradayReportService</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
