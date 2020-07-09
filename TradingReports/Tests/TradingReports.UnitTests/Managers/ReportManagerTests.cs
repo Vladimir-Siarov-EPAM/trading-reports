@@ -25,7 +25,7 @@ namespace TradingReports.UnitTests.Managers
 		//  2) Transition to winter time (2am -> 1am, UTC+1 -> UTC+0)
 
 		[Test]
-		public async Task GenerateIntradateReportAsync_TransitionToSummerTime()
+		public async Task GenerateIntradayReportAsync_TransitionToSummerTime()
 		{
 			#region arrange
 
@@ -61,7 +61,7 @@ namespace TradingReports.UnitTests.Managers
 			string csv = null;
 			using (MemoryStream ms = new MemoryStream())
 			{
-				await reportManager.GenerateIntradateReportAsync(data.UtcReportDate, ms);
+				await reportManager.GenerateIntradayReportAsync(data.UtcReportDate, ms);
 				
 				ms.Seek(0, SeekOrigin.Begin);
 				StreamReader sr = new StreamReader(ms, Encoding.UTF8);
@@ -83,7 +83,7 @@ namespace TradingReports.UnitTests.Managers
 		}
 
 		[Test]
-		public async Task GenerateIntradateReportAsync_TransitionToWinterTime()
+		public async Task GenerateIntradayReportAsync_TransitionToWinterTime()
 		{
 			#region arrange
 
@@ -119,7 +119,7 @@ namespace TradingReports.UnitTests.Managers
 			string csv = null;
 			using (MemoryStream ms = new MemoryStream())
 			{
-				await reportManager.GenerateIntradateReportAsync(data.UtcReportDate, ms);
+				await reportManager.GenerateIntradayReportAsync(data.UtcReportDate, ms);
 
 				ms.Seek(0, SeekOrigin.Begin);
 				StreamReader sr = new StreamReader(ms, Encoding.UTF8);
