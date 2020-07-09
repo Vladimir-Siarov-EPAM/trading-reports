@@ -54,7 +54,7 @@ namespace TradingReports.Core.Repositories
 			}
 			catch (Exception ex)
 			{
-				this.LogError("Error has occurred on \"GetDayTradingDataForUkAsync\" method", ex);
+				this.Logger.Error("Error has occurred on \"GetDayTradingDataForUkAsync\" method", ex);
 				throw;
 			}
 		}

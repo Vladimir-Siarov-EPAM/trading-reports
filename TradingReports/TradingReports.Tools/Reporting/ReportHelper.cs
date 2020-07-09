@@ -61,15 +61,16 @@ namespace TradingReports.Tools.Reporting
 
 			// check file name for unique
 			int fileVersion = 1;
-			string fileNamePostfix = string.Empty;
-			while (File.Exists(Path.Combine(ReportHelper.Settings.FilesDirectory, $"{fileName}{fileNamePostfix}")))
+			string fileNamePostfix = "";
+			string filePath = Path.Combine(ReportHelper.Settings.FilesDirectory, fileName);
+			while (File.Exists(filePath))
 			{
 				fileVersion++;
-				fileNamePostfix = $"({fileVersion})";
+				fileNamePostfix = $"({fileVersion}).";
+
+				filePath = Path.Combine(ReportHelper.Settings.FilesDirectory, $"{fileName.Replace(".", fileNamePostfix)}");
 			}
-
-			string filePath = Path.Combine(ReportHelper.Settings.FilesDirectory, $"{fileName}{fileNamePostfix}");
-
+			
 			return filePath;
 		}
 	}

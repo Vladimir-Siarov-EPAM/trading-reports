@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using Common.Logging;
 using TradingReports.Core.Helpers;
 using TradingReports.Core.Interfaces;
 using TradingReports.Tools.CSV;
@@ -14,6 +16,7 @@ namespace TradingReports.IntradayReportService.Managers
 	public class ReportManager
 	{
 		private readonly IReportRepository _reportRepository;
+		private readonly ILog _logger = LogManager.GetLogger(typeof(ReportManager));
 
 
 		public ReportManager(IReportRepository reportRepository)
@@ -25,27 +28,34 @@ namespace TradingReports.IntradayReportService.Managers
 		}
 
 
-		public async Task<string> GenerateIntradateReportAsync()
+		public async Task<string> GenerateIntradayReportAsync()
 		{
+			string reportFilePath = null;
+
 			try
 			{
+				_logger.Info("Intraday Report generation was started.");
+
 				DateTime utcReportDate = DateTime.UtcNow;
 				
-				string reportFilePath = ReportHelper.GenerateReportFilePath(utcReportDate);
+				reportFilePath = ReportHelper.GenerateReportFilePath(utcReportDate);
 				using (var fileStream = File.Create(reportFilePath))
 				{
-					await this.GenerateIntradateReportAsync(utcReportDate, fileStream);
+					await this.GenerateIntradayReportAsync(utcReportDate, fileStream);
 				}
+
+				_logger.InfoFormat("Intraday Report was generated successfully. File: {0}", reportFilePath);
 
 				return reportFilePath;
 			}
 			catch (Exception ex)
 			{
+				_logger.ErrorFormat("Intraday Report generation failed. File: {0}", ex, reportFilePath);
 				throw;
 			}
 		}
 
-		// public async Task<string> GenerateIntradateReportAsync()
+		// public async Task<string> GenerateIntradayReportAsync()
 		// {
 		// 	try
 		// 	{
@@ -72,7 +82,7 @@ namespace TradingReports.IntradayReportService.Managers
 		// }
 
 		// internal - for tests support
-		internal async Task GenerateIntradateReportAsync(DateTime utcReportDate, Stream stream)
+		internal async Task GenerateIntradayReportAsync(DateTime utcReportDate, Stream stream)
 		{
 			var dayTradingData = await _reportRepository.GetDayTradingDataForUkAsync(utcReportDate);
 			var streamWriter = new StreamWriter(stream, Encoding.UTF8);

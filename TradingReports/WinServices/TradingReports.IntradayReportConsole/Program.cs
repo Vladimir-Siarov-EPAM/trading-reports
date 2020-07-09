@@ -31,8 +31,8 @@ namespace TradingReports.IntradayReportConsole
 			var reportManager = container.Resolve<ReportManager>();
 
 			Console.WriteLine("Start to generate report...");
-			string reportPath = await reportManager.GenerateIntradateReportAsync();
-			Console.WriteLine("Report was generated: {0}", reportPath);
+			string reportPath = await reportManager.GenerateIntradayReportAsync();
+			//Console.WriteLine("Report was generated: {0}", reportPath);
 
 			Console.ReadKey();
 		}

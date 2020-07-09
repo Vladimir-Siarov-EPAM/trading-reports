@@ -3,15 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Common.Logging;
 
 namespace TradingReports.Core.Repositories
 {
 	public abstract class BaseRepository
 	{
-		// TODO: Logging support 
-		public void LogError(string message, Exception ex)
+		private ILog _logger;
+
+
+		protected ILog Logger
 		{
-			// TODO: ...
+			get
+			{
+				if (_logger == null)
+				{
+					_logger = LogManager.GetLogger(this.GetType());
+				}
+
+				return _logger;
+			}
 		}
 	}
 }
