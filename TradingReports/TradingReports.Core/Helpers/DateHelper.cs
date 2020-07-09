@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TradingReports.Core.Helpers
 {
+	/// <summary>
+	/// Contains helper methods for DateTime conversion to different Time Zones.
+	/// </summary>
 	public static class DateHelper
 	{
 		public static readonly TimeZoneInfo GmtTimeZoneInfo = TimeZoneInfo.FindSystemTimeZoneById("GMT Standard Time");

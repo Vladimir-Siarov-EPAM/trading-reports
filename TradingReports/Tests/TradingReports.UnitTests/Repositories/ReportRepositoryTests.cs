@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Moq;
 using NUnit.Framework;
 using TradingPlatform;
-using TradingReports.Core.DAL;
 using TradingReports.Core.Interfaces;
 using TradingReports.Core.Repositories;
 

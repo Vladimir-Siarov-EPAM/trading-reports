@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Timers;
 using TradingReports.Core.DAL;
 using TradingReports.Core.Helpers;
 using TradingReports.Core.Interfaces;
@@ -15,7 +12,50 @@ namespace TradingReports.IntradayReportConsole
 {
 	class Program
 	{
-		static async Task Main(string[] args)
+		private static IUnityContainer _container;
+
+		static void Main(string[] args)
+		{
+			PrintCurrentSettings();
+
+			_container = BuildContainer();
+			
+			// Set up a timer
+			Timer timer = new Timer();
+			timer.Interval = ReportHelper.Settings.ReportingIntervalInMinutes * 60000; // min * 60 seconds
+			timer.Elapsed += TimerOnElapsed;
+			timer.Start();
+
+			// Start generate report immediately
+			TimerOnElapsed(null, null);
+
+			// Console.WriteLine("Start to generate report...");
+			// string reportPath = await reportManager.GenerateIntradayReportAsync();
+			//Console.WriteLine("Report was generated: {0}", reportPath);
+
+			Console.ReadKey();
+		}
+
+		private static async void TimerOnElapsed(object sender, ElapsedEventArgs e)
+		{
+			var reportManager = _container.Resolve<ReportManager>();
+			await reportManager.GenerateIntradayReportAsync();
+			
+			Console.WriteLine("---");
+		}
+		
+
+		private static IUnityContainer BuildContainer()
+		{
+			IUnityContainer container = new UnityContainer();
+
+			container.RegisterType<ITradingDataAdapter, TradingDataAdapter>();
+			container.RegisterType<IReportRepository, ReportRepository>();
+
+			return container;
+		}
+
+		private static void PrintCurrentSettings()
 		{
 			Console.WriteLine("Current UK date: {0}", DateTime.UtcNow.FromUtcToGmt().ToString("dd MMMM yyyy HH:mm"));
 			Console.WriteLine("");
@@ -26,26 +66,6 @@ namespace TradingReports.IntradayReportConsole
 			Console.WriteLine("\t - FilesDirectory: {0}", ReportHelper.Settings.FilesDirectory);
 			Console.WriteLine("\t - ReportingIntervalInMinutes: {0}", ReportHelper.Settings.ReportingIntervalInMinutes);
 			Console.WriteLine("");
-
-			var container = BuildContainer();
-			var reportManager = container.Resolve<ReportManager>();
-
-			Console.WriteLine("Start to generate report...");
-			string reportPath = await reportManager.GenerateIntradayReportAsync();
-			//Console.WriteLine("Report was generated: {0}", reportPath);
-
-			Console.ReadKey();
-		}
-
-
-		private static IUnityContainer BuildContainer()
-		{
-			IUnityContainer container = new UnityContainer();
-
-			container.RegisterType<ITradingDataAdapter, TradingDataAdapter>();
-			container.RegisterType<IReportRepository, ReportRepository>();
-
-			return container;
 		}
 	}
 }

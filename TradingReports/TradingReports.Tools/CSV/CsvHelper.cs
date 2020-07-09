@@ -7,6 +7,9 @@ using TradingReports.Core.BE;
 
 namespace TradingReports.Tools.CSV
 {
+	/// <summary>
+	/// Contains helper method for CSV export.
+	/// </summary>
 	public class CsvHelper
 	{
 		public static readonly CsvSettings DefaultCsvSettings;

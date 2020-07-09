@@ -1,15 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using TradingReports.Core.Helpers;
 
 namespace TradingReports.Tools.Reporting
 {
+	/// <summary>
+	/// Contains helper methods for reporting (setup and execute).
+	/// </summary>
 	public static class ReportHelper
 	{
 		public static readonly ReportSettings Settings;
