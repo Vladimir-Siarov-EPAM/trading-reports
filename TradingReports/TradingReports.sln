@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TradingReports.IntradayRepo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TradingReports.IntradayReportConsole", "WinServices\TradingReports.IntradayReportConsole\TradingReports.IntradayReportConsole.csproj", "{DAA5B0C4-9679-48A5-82EB-8C8510D66BA7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TradingReports.IntegrationTests", "Tests\TradingReports.IntegrationTests\TradingReports.IntegrationTests.csproj", "{D223A8C3-77CD-4A67-8488-38BDF0E5292C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,6 +45,10 @@ Global
 		{DAA5B0C4-9679-48A5-82EB-8C8510D66BA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DAA5B0C4-9679-48A5-82EB-8C8510D66BA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DAA5B0C4-9679-48A5-82EB-8C8510D66BA7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D223A8C3-77CD-4A67-8488-38BDF0E5292C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D223A8C3-77CD-4A67-8488-38BDF0E5292C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D223A8C3-77CD-4A67-8488-38BDF0E5292C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D223A8C3-77CD-4A67-8488-38BDF0E5292C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -51,6 +57,7 @@ Global
 		{21E9BED4-85D9-4ADC-B1C9-B91CAB5FEDA1} = {4DB301E7-76D3-4E4A-A5E7-48445029E662}
 		{FFB11425-8CAF-415C-92A2-5D74FCAA5A12} = {21D9611B-21BF-4970-A7A8-5A18B4853B2B}
 		{DAA5B0C4-9679-48A5-82EB-8C8510D66BA7} = {21D9611B-21BF-4970-A7A8-5A18B4853B2B}
+		{D223A8C3-77CD-4A67-8488-38BDF0E5292C} = {4DB301E7-76D3-4E4A-A5E7-48445029E662}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9DEADEC5-C3CB-4A05-9FB0-E6F8FF96EDAB}
