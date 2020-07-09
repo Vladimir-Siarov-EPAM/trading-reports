@@ -1,0 +1,58 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30225.117
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{4DB301E7-76D3-4E4A-A5E7-48445029E662}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TradingReports.UnitTests", "Tests\TradingReports.UnitTests\TradingReports.UnitTests.csproj", "{21E9BED4-85D9-4ADC-B1C9-B91CAB5FEDA1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TradingReports.Core", "TradingReports.Core\TradingReports.Core.csproj", "{03C13867-B56E-48FB-9549-66FEF51E1034}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TradingReports.Tools", "TradingReports.Tools\TradingReports.Tools.csproj", "{E1CD25E2-CAE3-42FB-B6AE-BCFE34F3C7E7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WinServices", "WinServices", "{21D9611B-21BF-4970-A7A8-5A18B4853B2B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TradingReports.IntradayReportService", "WinServices\TradingReports.IntradayReportService\TradingReports.IntradayReportService.csproj", "{FFB11425-8CAF-415C-92A2-5D74FCAA5A12}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TradingReports.IntradayReportConsole", "WinServices\TradingReports.IntradayReportConsole\TradingReports.IntradayReportConsole.csproj", "{DAA5B0C4-9679-48A5-82EB-8C8510D66BA7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{21E9BED4-85D9-4ADC-B1C9-B91CAB5FEDA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21E9BED4-85D9-4ADC-B1C9-B91CAB5FEDA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21E9BED4-85D9-4ADC-B1C9-B91CAB5FEDA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21E9BED4-85D9-4ADC-B1C9-B91CAB5FEDA1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{03C13867-B56E-48FB-9549-66FEF51E1034}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03C13867-B56E-48FB-9549-66FEF51E1034}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03C13867-B56E-48FB-9549-66FEF51E1034}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03C13867-B56E-48FB-9549-66FEF51E1034}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E1CD25E2-CAE3-42FB-B6AE-BCFE34F3C7E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E1CD25E2-CAE3-42FB-B6AE-BCFE34F3C7E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E1CD25E2-CAE3-42FB-B6AE-BCFE34F3C7E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E1CD25E2-CAE3-42FB-B6AE-BCFE34F3C7E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FFB11425-8CAF-415C-92A2-5D74FCAA5A12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FFB11425-8CAF-415C-92A2-5D74FCAA5A12}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FFB11425-8CAF-415C-92A2-5D74FCAA5A12}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FFB11425-8CAF-415C-92A2-5D74FCAA5A12}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DAA5B0C4-9679-48A5-82EB-8C8510D66BA7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DAA5B0C4-9679-48A5-82EB-8C8510D66BA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DAA5B0C4-9679-48A5-82EB-8C8510D66BA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DAA5B0C4-9679-48A5-82EB-8C8510D66BA7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{21E9BED4-85D9-4ADC-B1C9-B91CAB5FEDA1} = {4DB301E7-76D3-4E4A-A5E7-48445029E662}
+		{FFB11425-8CAF-415C-92A2-5D74FCAA5A12} = {21D9611B-21BF-4970-A7A8-5A18B4853B2B}
+		{DAA5B0C4-9679-48A5-82EB-8C8510D66BA7} = {21D9611B-21BF-4970-A7A8-5A18B4853B2B}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9DEADEC5-C3CB-4A05-9FB0-E6F8FF96EDAB}
+	EndGlobalSection
+EndGlobal
