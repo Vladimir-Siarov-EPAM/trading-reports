@@ -6,6 +6,7 @@ using FluentAssertions;
 using Moq;
 using NUnit.Framework;
 using TradingPlatform;
+using TradingReports.Core.Helpers;
 using TradingReports.Core.Interfaces;
 using TradingReports.Core.Repositories;
 
@@ -14,19 +15,19 @@ namespace TradingReports.UnitTests.Repositories
 	[TestFixture]
 	public class ReportRepositoryTests
 	{
-		[Test]
-		public async Task GetDayTradingDataForUkAsync()
+		#region GetDayTradingDataForUkAsync
+
+		[TestCaseSource(nameof(GetDayTradingDataForUkAsync_Source))]
+		public async Task GetDayTradingDataForUkAsync(DateTime utcReportDate, int expectedPeriodCnt)
 		{
 			#region arrange
 
 			var data = new
 			{
-				GmtDate = new DateTime(2020, 3, 29, 13, 0, 0),
-				Trades = new List<Trade>(),
-				TradePeriodCnt = 23 
+				Trades = new List<Trade>()
 			};
-			data.Trades.Add(Trade.Create(data.GmtDate, data.TradePeriodCnt));
-			data.Trades.Add(Trade.Create(data.GmtDate, data.TradePeriodCnt));
+			data.Trades.Add(Trade.Create(utcReportDate.FromUtcToGmt(), expectedPeriodCnt));
+			data.Trades.Add(Trade.Create(utcReportDate.FromUtcToGmt(), expectedPeriodCnt));
 			foreach (Trade trade in data.Trades)
 			{
 				for (int i = 0; i < trade.Periods.Length; i++)
@@ -45,22 +46,37 @@ namespace TradingReports.UnitTests.Repositories
 			#endregion
 
 			var reportRepository = new ReportRepository(tradingDataAdapter.Object);
-		
+
 			// act
-			var testedTrades = (await reportRepository.GetDayTradingDataForUkAsync(data.GmtDate)).ToArray();
+			var testedTrades = (await reportRepository.GetDayTradingDataForUkAsync(utcReportDate)).ToArray();
 
 			// assert
 			testedTrades.Should().NotBeNull();
-			testedTrades.Length.Should().Be(data.TradePeriodCnt);
+			testedTrades.Length.Should().Be(expectedPeriodCnt);
 
 			int uniquePeriodUtcDatesCnt = testedTrades.Select(t => t.PeriodUtcDate).Distinct().Count();
-			uniquePeriodUtcDatesCnt.Should().Be(data.TradePeriodCnt);
+			uniquePeriodUtcDatesCnt.Should().Be(expectedPeriodCnt);
 
 			double[] orderedVolumes = testedTrades.OrderBy(t => t.PeriodUtcDate).Select(t => t.Volume).ToArray();
-			for (int i = 0; i < data.TradePeriodCnt; i++)
+			for (int i = 0; i < expectedPeriodCnt; i++)
 			{
 				orderedVolumes[i].Should().Be(data.Trades.Sum(t => t.Periods[i].Volume));
 			}
 		}
+
+		private static IEnumerable<TestCaseData> GetDayTradingDataForUkAsync_Source()
+		{
+			var utcDateOfTransitionToSummerTime = new DateTime(2020, 3, 29, 1, 0, 0);
+			var utcDateOfTransitionToWinterTime = new DateTime(2019, 10, 27, 2, 0, 0);
+
+			// TestCaseData: { utcReportDate, expectedTradingPeriodCnt }
+			yield return new TestCaseData(utcDateOfTransitionToSummerTime.AddDays(-1), 24);
+			yield return new TestCaseData(utcDateOfTransitionToSummerTime, 23);
+
+			yield return new TestCaseData(utcDateOfTransitionToWinterTime, 25);
+			yield return new TestCaseData(utcDateOfTransitionToWinterTime.AddDays(+1), 24);
+		}
+
+		#endregion
 	}
 }
